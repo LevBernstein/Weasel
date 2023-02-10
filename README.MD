@@ -5,6 +5,9 @@
 Simple Python implementation of Dawkins' weasel program. For more info on the
 idea behind the weasel program, see the relevant [Wikipedia article](https://en.wikipedia.org/wiki/Weasel_program).
 
+Contains two versions, one for Python CLI and one for web.
+
+The web version requires a network connection in order to access [PyScript](https://pyscript.net/)
 
 ## License
 
