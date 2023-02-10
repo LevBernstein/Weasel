@@ -2,6 +2,7 @@
 # Lev Bernstein
 
 
+from math import log
 from random import choice, randint
 
 
@@ -44,12 +45,13 @@ if __name__ == "__main__":
 	seed = "".join(choice(LETTERS) for i in range(len(PHRASE)))
 	for j in (1, 2, 5, 10, 20, 50, 100):
 		survivor = seed
-		print(f"\n{j}-child version:")
+		print(f"\n{j}-child version:\nGeneration      Child         Score")
 		print(0, survivor, fitness(survivor, PHRASE))
 		for i in range(1, MAX_GENERATIONS + 1):
 			survivor = compete(survivor, PHRASE, j)
 			if PHRASE == survivor:
+				print(i, survivor, fitness(survivor, PHRASE))
 				print(f"{j}-child program successful on generation {i}.")
 				break
-			if i % (max(1, MAX_GENERATIONS//(40 + j))) == 0:
+			if i % int(4 * (1 + (log(2 * MAX_GENERATIONS, 1.05 ** j)))) == 0:
 				print(i, survivor, fitness(survivor, PHRASE))
