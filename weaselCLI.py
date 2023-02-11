@@ -1,14 +1,13 @@
 # Weasel program
 # Lev Bernstein
 
-import asyncio
-from js import document
+
 from math import log
 from random import choice, randint
 
 
-PHRASE = "METHINKS_IT_IS_LIKE_A_WEASEL"
-LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+PHRASE = "METHINKS IT IS LIKE A WEASEL"
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
 MAX_GENERATIONS = 10000
 MUTATION_RATE = 5
 
@@ -42,27 +41,17 @@ def compete(parent: str, target: str, litter_size: int) -> str:
 	return strcmp(parent, child, target)
 
 
-async def main():
-	div = document.getElementById("box")
-	div.innerHTML = ""
+if __name__ == "__main__":
 	seed = "".join(choice(LETTERS) for i in range(len(PHRASE)))
 	for j in (1, 2, 5, 10, 20, 50, 100):
 		survivor = seed
-		await asyncio.sleep(.1)
-		div.innerHTML += f"<br>{j}-child version:<br>Generation Child Score<br>"
-		div.innerHTML += f"0 {survivor} {fitness(survivor, PHRASE)}"
+		print(f"\n{j}-child version:\nGeneration      Child         Score")
+		print(0, survivor, fitness(survivor, PHRASE))
 		for i in range(1, MAX_GENERATIONS + 1):
 			survivor = compete(survivor, PHRASE, j)
 			if PHRASE == survivor:
-				await asyncio.sleep(.1)
-				div.innerHTML += f"<br>{i} {survivor} {fitness(survivor, PHRASE)}"
-				await asyncio.sleep(.1)
-				div.innerHTML += f"<br>{j}-child program successful on generation {i}.<br>"
+				print(i, survivor, fitness(survivor, PHRASE))
+				print(f"{j}-child program successful on generation {i}.")
 				break
 			if i % int(4 * (1 + (log(2 * MAX_GENERATIONS, 1.05 ** j)))) == 0:
-				await asyncio.sleep(.1)
-				div.innerHTML += f"<br>{i} {survivor} {fitness(survivor, PHRASE)}"
-
-
-if __name__ == "__main__":
-	asyncio.ensure_future(main())
+				print(i, survivor, fitness(survivor, PHRASE))
